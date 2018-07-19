@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Project Staffing Planner - Add</title>
+        <script src="index.js"></script>
+    </head>
+
+    <body>
+        <header class="site-header">
+                <h1>Project Staffing Planner</h1>
+                <h2>Jonathan Jones</h2>
+
+                <nav class="navbar">
+                        <ul class="navlist">
+                            <li class="navitem navlink"><a href="index.html">Home</a></li>
+                            <li class="navitem navlink active"><a href="#">Add</a></li>
+                            <li class="navitem navlink"><a href="remove.html">Remove</a></li>
+                            <li class="navitem navlink"><a href="update.html">Update</a></li>
+                        </ul>
+                    </nav>
+        </header>
+        <main class="site-content">
+            <h3>Add Project</h3>
+            <form action="">
+                Project Name: <br>
+                <input type="text" id="project_name"><br>
+                <input type="submit" value="Add Project" onclick="add_project();">
+            </form>
+
+            <h3>Add Team</h3>
+            <form action="">
+                Team Name: <br>
+                <input type="text" id="team_name"><br>
+                <input type="submit" value="Add Team" onclick="add_team();">
+            </form>
+
+            <h3>Add Role</h3>
+            <form action="">
+                Role Name: <br> 
+                <input type="text" id="role_name"><br>
+                Salary ($/Month): <br>
+                <input type="number" id="salary"><br>
+                Link to companies (optional): <br>
+                <select id="role_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+                    <option value="Amazon_ID">Amazon</option>
+                    <option value="Experis_ID">Experis</option>
+                </select><br>
+                <input type="submit" value="Add Role" onclick="add_role();">
+            </form>
+
+            <h3>Add Location</h3>
+            <form action="">
+                Location Name: <br>
+                <input type="text" id="location_name"><br>
+                Link to companies (optional): <br>
+                <select id="location_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+                    <option value="Amazon_ID">Amazon</option>
+                    <option value="Experis_ID">Experis</option>
+                </select><br>
+                <input type="submit" value="Add Location" onclick="add_location();">
+            </form>
+
+            <h3>Add Company</h3>
+            <form action="">
+                Company Name: <br>
+                <input type="text" id="company_name"><br>
+                Location (Choose one or many [Use CTRL-Click to select]) (Automatically links location to company): <br>
+                <select id="company_locations" class="locations" multiple> <!--These are added whenever the user adds one to the database-->
+                    <option value="Irvine_ID">Irvine</option>
+                    <option value="Seattle_ID">Seattle</option>
+                </select><br>
+                Roles (Choose one or many [Use CTRL-Click to select]) (Automatically links role to company): <br>
+                <select id="company_roles" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+                    <option value="QAM_ID">QAM</option>
+                    <option value="SDET_ID">SDET</option>
+                </select><br>
+                <input type="submit" value="Add Company" onclick="add_company();">
+            </form> 
+
+            <h3>Add Project Role</h3>
+            <form action="">
+                Select one of each from the following fields:<br><br>
+                Project: <br>
+                <select id="pr_project" class="projects"> <!--These are added whenever the user adds one to the database-->
+                    <option value="New_World_ID">New World</option>
+                    <option value="Crucible_ID">Crucible</option>
+                </select><br>
+                Team: <br>
+                <select id="pr_team" class="teams"> <!--These are added whenever the user adds one to the database-->
+                    <option value="Management_ID">Management</option>
+                    <option value="New_World_ID">New World</option>
+                </select><br>
+                Role: <br>
+                <select id="pr_role" class="roles"> <!--These are added whenever the user adds one to the database-->
+                    <option value="QAM_ID">QAM</option>
+                    <option value="SDET_ID">SDET</option>
+                </select><br>
+                Company: <br>
+                <select id="pr_company" class="companies"> <!--These are added whenever the user adds one to the database-->
+                    <option value="Amazon_ID">Amazon</option>
+                    <option value="Experis_ID">Experis</option>
+                </select><br>
+                Location: <br>
+                <select id="pr_location" class="locations"> <!--These are added whenever the user adds one to the database-->
+                    <option value="Irvine_ID">Irvine</option>
+                    <option value="Seattle_ID">Seattle</option>
+                </select><br>
+                <input type="submit" value="Add Project Role" onclick="add_project_role();">
+            </form>
+        </main>
+    </body>
+</html>
