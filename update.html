@@ -24,7 +24,149 @@
         </header>
 
         <main class="site-content">
-    
+            <!--Project_Role/Month Table and Total Cost-->
+            <h3>Project_Name</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Team</th>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>January</th>
+                    <th>February</th>
+                    <th>March</th>
+                    <th>April</th>
+                    <th>May</th>
+                    <th>June</th>
+                    <th>July</th>
+                    <th>August</th>
+                    <th>September</th>
+                    <th>October</th>
+                    <th>November</th>
+                    <th>December</th>
+                    <th>Total Cost</th>
+                </tr>
+                <tr>
+                    <td>ID#</td>
+                    <td>Team_Name</td>
+                    <td>Role_Name</td>
+                    <td>Company_Name</td>
+                    <td>Location_Name</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>$0</td>
+                </tr>
+            </table>
+
+            <h3>Change Project Name</h3>
+            <form action="">
+                <span>Project (Choose one):</span><br>
+                <select id="update_project">
+                    <option value="project_id_1">New World</option>
+                    <option value="project_id_2">Crucible</option>
+                </select><br>
+                <span>New project name:</span><br>
+                <input type="text" id="new_project_name" placeholder="selected_project_name"><br>
+                <input type="submit" value="Update Project" onclick="update_project();">
+            </form>
+
+            <h3>Change Team Name</h3>
+            <form action="">
+                <span>Team (Choose one):</span><br>
+                <select id="update_team">
+                    <option value="team_id_1">Management</option>
+                    <option value="team_id_2">New World</option>
+                </select><br>
+                <span>New team name:</span><br>
+                <input type="text" id="new_team_name" placeholder="selected_team_name"><br>
+                <input type="submit" value="Update Team" onclick="update_team();">
+
+            <h3>Change Role Name/Salary</h3>
+            <form action="">
+                <span>Role (Choose one):</span><br>
+                <select id="update_role">
+                    <option value="role_id_1">QAM</option>
+                    <option value="role_id_2">SDET</option>
+                </select><br>
+                <span>New role name:</span><br>
+                <input type="text" id="new_role_name" placeholder="selected_role_name"><br>
+                <span>New salary:</span><br>
+                <input type="number" id="new_role_salary" placeholder="selected_role_salary"><br>
+                <input type="submit" value="Update Role" onclick="update_role();">
+
+            <h3>Change Location Name</h3>
+            <form action="">
+                <span>Location (Choose one):</span><br>
+                <select id="update_location">
+                    <option value="location_id_1">Irvine</option>
+                    <option value="location_id_2">Seattle</option>
+                </select><br>
+                <span>New location name:</span><br>
+                <input type="text" id="new_location_name"><br>
+                <input type="submit" value="Update Location" onclick="update_location();">
+
+            <h3>Change Company Name</h3>
+            <form action="">
+                <span>Company (Choose one):</span><br>
+                <select id="update_company">
+                    <option value="company_id_1">Amazon</option>
+                    <option value="company_id_2">Irvine</option>
+                </select><br>
+                <span>New company name:</span><br>
+                <input type="text" id="new_company_name"><br>
+                <input type="submit" value="Update Company" onclick="update_company();">
+
+            <h3>Change Project Role Manpower</h3>
+            <form action="">
+                <span>Project Role ID (Choose one):</span><br>
+                <select id="update_pr">
+                    <option value="pr_id_1">Project Role 1</option>
+                    <option value="pr_id_2">Project Role 2</option>
+                </select><br>
+                <span>Update manpower for the year:</span><br>
+                <table>
+                    <tr>
+                        <th>January</th>
+                        <th>February</th>
+                        <th>March</th>
+                        <th>April</th>
+                        <th>May</th>
+                        <th>June</th>
+                        <th>July</th>
+                        <th>August</th>
+                        <th>September</th>
+                        <th>October</th>
+                        <th>November</th>
+                        <th>December</th>
+                    </tr>
+                    <tr>
+                        <td><input type="number" id="update_january" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_february" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_march" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_april" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_may" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_june" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_july" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_august" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_september" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_october" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_november" placeholder="Previous Value" step="0.01"></td>
+                        <td><input type="number" id="update_december" placeholder="Previous Value" step="0.01"></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Update Project Role" onclick="update_project_role();">
+            </form>
         </main>
     </body>
 </html>
