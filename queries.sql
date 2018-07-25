@@ -1,39 +1,89 @@
--- Total cost of one project role over all the months it operates
-SELECT project_role.id, SUM(manpower) * salary AS Total_Cost 
-FROM project_role 
-INNER JOIN projectrole_month ON project_role.id = projectrole_month.project_role_id 
-INNER JOIN role ON project_role.role_id = role.id 
-WHERE project_role.id = [Project Role ID selected from dropdown]
+-- Total cost of each project role over all the months that it operates
+select project_role.id as prid, ifnull(sum(manpower) * salary, 0) as total_cost
+from project_role
+left join projectrole_month on projectrole_month.project_role_id = project_role.id
+inner join role on role.id = project_role.role_id
+group by project_role.id
+
+-- Total cost of each project role in a project over all the months that it operates
+select project_role.id as prid, ifnull(sum(manpower) * salary, 0) as total_cost
+from project_role
+left join projectrole_month on projectrole_month.project_role_id = project_role.id
+inner join role on role.id = project_role.role_id
+where project_role.project_id = (select id from project where name = [Project name])
+group by project_role.id
 
 -- Total cost of one specified month for a project
-SELECT SUM(cost) AS Total_Cost 
-FROM (
-    SELECT month_id, project_role.id AS prid, manpower, salary, manpower * salary AS cost 
-    FROM project_role 
-    INNER JOIN projectrole_month ON project_role.id = projectrole_month.project_role_id 
-    INNER JOIN role ON project_role.role_id = role.id 
-    WHERE projectrole_month.month_id = [month selected from dropdown] AND project_role.project_id = [project selected from dropdown]
-    ) q0;
+select sum(project_role_costs.cost) as total_cost
+from
+(
+select project.name as project_name, project_role.id as prid, manpower, salary, manpower * salary as cost
+from project
+inner join project_role on project_role.project_id = project.id and project.id = [project id selected from dropdown]
+inner join projectrole_month on projectrole_month.project_role_id = project_role.id and projectrole_month.month_id = [month id selected from dropdown]
+inner join role on role.id = project_role.role_id
+) project_role_costs
 
--- Total cost of all instances of a role in a single project
-SELECT SUM(manpower) * salary AS Total_Cost
-FROM (
-    SELECT project_role.id, role.name, projectrole_month.month_id as month, manpower, salary 
-    FROM project_role 
-    INNER JOIN projectrole_month ON project_role.id = projectrole_month.project_role_id 
-    INNER JOIN role ON project_role.role_id = role.id 
-    WHERE role.id = [Role selected from dropdown] AND project_role.project_id = [Project selected from dropdown]
-) t;
+-- Total cost of every month for each project
+select month.id as mid, month.name as month_name, project_role_month_costs.pid, sum(project_role_month_costs.cost) as total_cost
+from month
+inner join
+(
+    select project_role.project_id as pid, project_role.id as prid, projectrole_month.month_id as month_id, manpower * salary as cost
+    from project_role
+    inner join projectrole_month on projectrole_month.project_role_id = project_role.id
+    inner join role on role.id = project_role.role_id
+    order by pid
+) project_role_month_costs on project_role_month_costs.month_id = month.id
+group by mid, pid
 
--- Total cost of a company for a single project
-SELECT SUM(manpower) * salary AS Total_Cost
-FROM (
-    SELECT project_role.id, role.name, projectrole_month.month_id as month, manpower, salary 
-    FROM project_role 
-    INNER JOIN projectrole_month ON project_role.id = projectrole_month.project_role_id 
-    INNER JOIN role ON project_role.role_id = role.id 
-    WHERE project_role.company_id = [Company selected from dropdown] AND project_role.project_id = [Project selected from dropdown]
-) t;
+-- Total cost of all types of roles in every project
+select pr_pid as pid, pr_rid as rid, sum(pr_cost) as total_cost
+from
+(
+    select project_role.id as prid, project_role.project_id as pr_pid, project_role.role_id as pr_rid, ifnull(sum(manpower) * salary, 0) as pr_cost
+    from project_role
+    left join projectrole_month on projectrole_month.project_role_id = project_role.id
+    inner join role on role.id = project_role.role_id
+    group by project_role.id
+) project_role_costs
+group by pid, rid
+
+-- Total cost of a single role type in a single project
+select sum(pr_cost) as total_cost
+from
+(
+    select project_role.id as prid, project_role.project_id as pr_pid, project_role.role_id as pr_rid, ifnull(sum(manpower) * salary, 0) as pr_cost
+    from project_role
+    left join projectrole_month on projectrole_month.project_role_id = project_role.id
+    inner join role on role.id = project_role.role_id
+    group by project_role.id
+) project_role_costs
+where pr_pid = [project id selected from dropdown] and pr_rid = [role id selected from dropdown]
+
+-- Total cost of all companies in every project
+select pr_pid as pid, pr_cid as cid, sum(pr_cost) as total_cost
+from
+(
+    select project_role.id as prid, project_role.project_id as pr_pid, project_role.company_id as pr_cid, ifnull(sum(manpower) * salary, 0) as pr_cost
+    from project_role
+    left join projectrole_month on projectrole_month.project_role_id = project_role.id
+    inner join role on role.id = project_role.role_id
+    group by project_role.id
+) project_role_costs
+group by pid, cid
+
+-- Total cost of a company in a project
+select pr_pid as pid, pr_cid as cid, sum(pr_cost) as total_cost
+from
+(
+    select project_role.id as prid, project_role.project_id as pr_pid, project_role.company_id as pr_cid, ifnull(sum(manpower) * salary, 0) as pr_cost
+    from project_role
+    left join projectrole_month on projectrole_month.project_role_id = project_role.id
+    inner join role on role.id = project_role.role_id
+    group by project_role.id
+) project_role_costs
+where pr_pid = [project id selected from dropdown] and pr_cid = [company id selected from dropdown]
 
 -- Roles associated with a single company
 SELECT role.name AS associations 
@@ -64,4 +114,3 @@ SELECT team.name AS associations
 FROM team_project 
 INNER JOIN team ON team_project.team_id = team.id
 WHERE project_id = [Project selected from dropdown]
-
