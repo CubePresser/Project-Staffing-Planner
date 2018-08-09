@@ -1,0 +1,25 @@
+{
+  "name": "project_staffing_planner",
+  "version": "0.1.0",
+  "description": "A simple web app with a MySQL database backend for managing project staffing and financing.",
+  "main": "psp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node psp.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonesjonathan/Project-Staffing-Planner.git"
+  },
+  "author": "Jonathan Jones <j_alex_jones@msn.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jonesjonathan/Project-Staffing-Planner/issues"
+  },
+  "homepage": "https://github.com/jonesjonathan/Project-Staffing-Planner#readme",
+  "devDependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "forever": "^0.15.3"
+  }
+}
