@@ -1,6 +1,7 @@
 <main class="site-content">
     <!--Project_Role/Month Table and Total Cost-->
-    <h3>Project_Name</h3>
+    {{#each project_name}}
+    <h3>{{pr_project}}</h3>
     <table>
         <tr>
             <th>ID</th>
@@ -22,34 +23,28 @@
             <th>December</th>
             <th>Total Cost</th>
         </tr>
+        {{#each project_role}}
         <tr>
-            <td>ID#</td>
-            <td>Team_Name</td>
-            <td>Role_Name</td>
-            <td>Company_Name</td>
-            <td>Location_Name</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>$0</td>
+            <td>{{id}}</td>
+            <td>{{team}}</td>
+            <td>{{role}}</td>
+            <td>{{company}}</td>
+            <td>{{location}}</td>
+            {{#each manpower}}
+            <td>{{this}}</td>
+            {{/each}}
+            <td>{{total_cost}}</td>
         </tr>
+        {{/each}}
     </table>
+    {{/each}}
     <!--Some queries-->
 
     <!--Gets the total cost of a single month for one or many projects-->
     <h3>Get cost of a single month in a project</h3>
-    <form method="POST" action="home/q0">
+    <form id="q0_form" action="home/q0" method="POST">
         Month (Choose one): <br>
-        <select id="q0_month" name="month_field" class="months">
+        <select id="q0_month" name="month" class="months" required>
             <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
@@ -64,100 +59,114 @@
             <option value="12">December</option>
         </select><br>
         Project (Choose one): <br>
-        <select id="q0_project" name="project_field" class="projects"> <!--These are added whenever the user adds one to the database-->
-            <option value="New_World_ID">New World</option>
-            <option value="Crucible_ID">Crucible</option>
+        <select id="q0_project" name="project" class="projects" required> <!--These are added whenever the user adds one to the database-->
+            <option value="1">DELETE ME</option>
+            {{#each project}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
         <input type="submit"><br>
-        Total Cost: ${{q0_cost}} <br>
+        <span id="q0_result"></span>
     </form>
 
     <!--Gets total costs of roles for a single project-->
     <h3>Total cost of all instances of a role for a single project</h3>
-    <form action="">
-            Role (Choose one): <br>
-            <select id="q1_role" class="roles"> <!--These are added whenever the user adds one to the database-->
-                <option value="QAM_ID">QAM</option>
-                <option value="SDET_ID">SDET</option>
-            </select><br>
-            Project (Choose one): <br>
-            <select id="q1_project" class="projects">
-                <option value="New_World_ID">New World</option>
-                <option value="Crucible_ID">Crucible</option>
-            </select><br>
-            <input type="submit" onclick=""><br>
-            Total Cost: $0 <br>
+    <form id="q1_form" action="home/q1" method="POST">
+        Role (Choose one): <br>
+        <select id="q1_role" name="role" class="roles" required> <!--These are added whenever the user adds one to the database-->
+            <option value="1">DELETE ME</option>
+            {{#each role}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select><br>
+        Project (Choose one): <br>
+        <select id="q1_project" name="project" class="projects" required>
+            <option value="1">DELETE ME</option>
+            {{#each project}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select><br>
+        <input type="submit"><br>
+        <span id="q1_result"></span>
     </form>
 
     <!--Gets total cost of a single company for a single project-->
     <h3>Total cost of a company for a single project</h3>
-    <form action="">
+    <form id="q2_form" action="home/q2" method="POST">
         Company (Choose one): <br>
-        <select id="q2_company" class="companies">
-            <option value="Amazon_ID">Amazon</option>
-            <option value="Experis_ID">Experis</option>
+        <select id="q2_company" name="company" class="companies" required>
+            {{#each company}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
         Project (Choose one): <br>
-        <select id="q2_project" class="projects">
-            <option value="New_World_ID">New World</option>
-            <option value="Crucible_ID">Crucible</option>
+        <select id="q2_project" name="project" class="projects" required>
+            {{#each project}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick=""><br>
-        Total Cost: $0
+        <input type="submit"><br>
+        <span id="q2_result"></span>
     </form>
 
     <h3>Roles associated with a single company</h3>
-    <form action="">
+    <form id="q3_form" action="home/q3" method="POST">
         Company (Choose one): <br>
-        <select id="q3_company" class="companies">
-            <option value="Amazon_ID">Amazon</option>
-            <option value="Experis_ID">Experis</option>
+        <select id="q3_company" name="company" class="companies" required>
+            {{#each company}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick=""><br>
-        Roles associated with [company]: <br>
+        <input type="submit"><br>
+        <span id="q3_result"></span>
     </form>
 
     <h3>Companies associated with a single role</h3>
-    <form action="">
+    <form id="q4_form" action="home/q4" method="POST">
         Role (Choose one): <br>
-        <select id="q4_role" class="roles">
-            <option value="QAM_ID">QAM</option>
-            <option value="SDET_ID">SDET</option>
+        <select id="q4_role" name="role" class="roles" required>
+            {{#each role}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick=""><br>
-        Companies associated with [role]: <br>
+        <input type="submit"><br>
+        <span id="q4_result"></span>
     </form>
 
     <h3>Average manpower over the year for a single project role</h3>
-    <form action="">
+    <form id="q5_form" action="home/q5" method="POST">
         Project Role ID (Choose one): <br>
-        <select id="q5_prid" class="prids">
-            <option value="1">1</option>
-            <option value="2">2</option>
+        <select id="q5_prid" name="project_role" class="prids" required>
+            {{#each project_role}}
+            <option value="{{id}}">{{id}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick=""><br>
-        Average manpower: 0.0 <br>
+        <input type="submit"><br>
+        <span id="q5_result"></span>
     </form>
 
     <h3>Projects that a team is working on</h3>
-    <form action="">
+    <form id="q6_form" action="home/q6" method="POST">
         Team (Choose one): <br>
-        <select id="q6_team" class="teams">
-            <option value="Management_ID">Management</option>
-            <option value="New_World_ID">New World</option>
+        <select id="q6_team" name="team" class="teams" required>
+            {{#each team}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick=""><br>
-        Projects that [team] is working on: <br>
+        <input type="submit"><br>
+        <span id="q6_result"></span>
     </form>
 
     <h3>Teams that are working on a project</h3>
-    <form action="">
+    <form id="q7_form" action="home/q7" method="POST">
         Project (Choose one): <br>
-        <select id="q7_project" class="projects">
-            <option value="New_World_ID">New World</option>
-            <option value="Crucible_ID">Crucible</option>
+        <select id="q7_project" name="project" class="projects" required>
+            {{#each project}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
         </select><br>
-        <input type="submit" onclick="">
+        <input type="submit"><br>
+        <span id="q7_result"></span>
     </form>
 
 </main>

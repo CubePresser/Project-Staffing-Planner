@@ -48,23 +48,23 @@
     <h3>Add Project</h3>
     <form action="">
         Project Name: <br>
-        <input type="text" id="project_name"><br>
+        <input type="text" id="project_name" required><br>
         <input type="submit" value="Add Project" onclick="add_project();">
     </form>
 
     <h3>Add Team</h3>
     <form action="">
         Team Name: <br>
-        <input type="text" id="team_name"><br>
+        <input type="text" id="team_name" required><br>
         <input type="submit" value="Add Team" onclick="add_team();">
     </form>
 
     <h3>Add Role</h3>
     <form action="">
         Role Name: <br> 
-        <input type="text" id="role_name"><br>
+        <input type="text" id="role_name" required><br>
         Salary ($/Month): <br>
-        <input type="number" id="salary"><br>
+        <input type="number" id="salary" required><br>
         Link to companies (optional): <br>
         <select id="role_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
             <option value="Amazon_ID">Amazon</option>
@@ -76,12 +76,12 @@
     <h3>Add a Role-Company Relationship</h3>
     <form action="">
         <span>Role (Choose one):</span><br>
-        <select id="add_role-company_role_id">
+        <select id="add_role-company_role_id" required>
             <option value="role_id_1">QAM</option>
             <option value="role_id_2">SDET</option>
         </select><br>
         <span>Company (Choose one):</span><br>
-        <select id="add_role-company_company_id">
+        <select id="add_role-company_company_id" required>
             <option value="company_id_1">Amazon</option>
             <option value="company_id_2">Experis</option>
         </select><br>
@@ -91,7 +91,7 @@
     <h3>Add Location</h3>
     <form action="">
         Location Name: <br>
-        <input type="text" id="location_name"><br>
+        <input type="text" id="location_name" required><br>
         Link to companies (optional): <br>
         <select id="location_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
             <option value="Amazon_ID">Amazon</option>
@@ -103,14 +103,14 @@
     <h3>Add Company</h3>
     <form action="">
         Company Name: <br>
-        <input type="text" id="company_name"><br>
+        <input type="text" id="company_name" required><br>
         Location (Choose one or many [Use CTRL-Click to select]) (Automatically links location to company): <br>
-        <select id="company_locations" class="locations" multiple> <!--These are added whenever the user adds one to the database-->
+        <select id="company_locations" class="locations" multiple required> <!--These are added whenever the user adds one to the database-->
             <option value="Irvine_ID">Irvine</option>
             <option value="Seattle_ID">Seattle</option>
         </select><br>
         Roles (Choose one or many [Use CTRL-Click to select]) (Automatically links role to company): <br>
-        <select id="company_roles" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+        <select id="company_roles" class="companies" multiple required> <!--These are added whenever the user adds one to the database-->
             <option value="QAM_ID">QAM</option>
             <option value="SDET_ID">SDET</option>
         </select><br>
@@ -120,12 +120,12 @@
     <h3>Add a Company-Location Relationship</h3>
     <form action="">
         <span>Company (Choose one):</span><br>
-        <select id="add_company-location_company_id">
+        <select id="add_company-location_company_id" required>
             <option value="company_id_1">Amazon</option>
             <option value="company_id_2">Experis</option>
         </select><br>
         <span>Company (Choose one):</span><br>
-        <select id="add_company-location_location_id">
+        <select id="add_company-location_location_id" required>
             <option value="location_id_1">Irvine</option>
             <option value="location_id_2">Seattle</option>
         </select><br>
@@ -136,27 +136,27 @@
     <form action="">
         Select one of each from the following fields:<br><br>
         Project: <br>
-        <select id="add_pr_project" class="projects"> <!--These are added whenever the user adds one to the database-->
+        <select id="add_pr_project" class="projects" required> <!--These are added whenever the user adds one to the database-->
             <option value="New_World_ID">New World</option>
             <option value="Crucible_ID">Crucible</option>
         </select><br>
         Team: <br>
-        <select id="add_pr_team" class="teams"> <!--These are added whenever the user adds one to the database-->
+        <select id="add_pr_team" class="teams" required> <!--These are added whenever the user adds one to the database-->
             <option value="Management_ID">Management</option>
             <option value="New_World_ID">New World</option>
         </select><br>
         Role: <br>
-        <select id="add_pr_role" class="roles"> <!--These are added whenever the user adds one to the database-->
+        <select id="add_pr_role" class="roles" required> <!--These are added whenever the user adds one to the database-->
             <option value="QAM_ID">QAM</option>
             <option value="SDET_ID">SDET</option>
         </select><br>
         Company: <br>
-        <select id="add_pr_company" class="companies"> <!--These are added whenever the user adds one to the database-->
+        <select id="add_pr_company" class="companies" required> <!--These are added whenever the user adds one to the database-->
             <option value="Amazon_ID">Amazon</option>
             <option value="Experis_ID">Experis</option>
         </select><br>
         Location: <br>
-        <select id="add_pr_location" class="locations"> <!--These are added whenever the user adds one to the database-->
+        <select id="add_pr_location" class="locations" required> <!--These are added whenever the user adds one to the database-->
             <option value="Irvine_ID">Irvine</option>
             <option value="Seattle_ID">Seattle</option>
         </select><br>

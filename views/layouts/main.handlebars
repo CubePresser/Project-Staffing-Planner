@@ -5,7 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Project Staffing Planner - {{title}}</title>
-        <script src="index.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        {{#each scripts}}
+        <script src="/static/{{this}}"></script>
+        {{/each}}
+        <script></script>
     </head>
 
     <body>
