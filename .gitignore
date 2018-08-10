@@ -62,3 +62,6 @@ typings/
 
 #package-lock removal
 package-lock.json
+
+#Don't commit sensitive database info
+dbcon.js
