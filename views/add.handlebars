@@ -1,0 +1,196 @@
+<main class="site-content">
+
+    <!--Project_Role/Month Table and Total Cost-->
+    <h3>Project_Name</h3>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Team</th>
+            <th>Role</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>January</th>
+            <th>February</th>
+            <th>March</th>
+            <th>April</th>
+            <th>May</th>
+            <th>June</th>
+            <th>July</th>
+            <th>August</th>
+            <th>September</th>
+            <th>October</th>
+            <th>November</th>
+            <th>December</th>
+            <th>Total Cost</th>
+        </tr>
+        <tr>
+            <td>ID#</td>
+            <td>Team_Name</td>
+            <td>Role_Name</td>
+            <td>Company_Name</td>
+            <td>Location_Name</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>$0</td>
+        </tr>
+    </table>
+
+    <h3>Add Project</h3>
+    <form action="">
+        Project Name: <br>
+        <input type="text" id="project_name"><br>
+        <input type="submit" value="Add Project" onclick="add_project();">
+    </form>
+
+    <h3>Add Team</h3>
+    <form action="">
+        Team Name: <br>
+        <input type="text" id="team_name"><br>
+        <input type="submit" value="Add Team" onclick="add_team();">
+    </form>
+
+    <h3>Add Role</h3>
+    <form action="">
+        Role Name: <br> 
+        <input type="text" id="role_name"><br>
+        Salary ($/Month): <br>
+        <input type="number" id="salary"><br>
+        Link to companies (optional): <br>
+        <select id="role_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+            <option value="Amazon_ID">Amazon</option>
+            <option value="Experis_ID">Experis</option>
+        </select><br>
+        <input type="submit" value="Add Role" onclick="add_role();">
+    </form>
+
+    <h3>Add a Role-Company Relationship</h3>
+    <form action="">
+        <span>Role (Choose one):</span><br>
+        <select id="add_role-company_role_id">
+            <option value="role_id_1">QAM</option>
+            <option value="role_id_2">SDET</option>
+        </select><br>
+        <span>Company (Choose one):</span><br>
+        <select id="add_role-company_company_id">
+            <option value="company_id_1">Amazon</option>
+            <option value="company_id_2">Experis</option>
+        </select><br>
+        <input type="submit" value="Add Relation" onclick="add_role_company_relation();">
+    </form>
+
+    <h3>Add Location</h3>
+    <form action="">
+        Location Name: <br>
+        <input type="text" id="location_name"><br>
+        Link to companies (optional): <br>
+        <select id="location_companies" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+            <option value="Amazon_ID">Amazon</option>
+            <option value="Experis_ID">Experis</option>
+        </select><br>
+        <input type="submit" value="Add Location" onclick="add_location();">
+    </form>
+
+    <h3>Add Company</h3>
+    <form action="">
+        Company Name: <br>
+        <input type="text" id="company_name"><br>
+        Location (Choose one or many [Use CTRL-Click to select]) (Automatically links location to company): <br>
+        <select id="company_locations" class="locations" multiple> <!--These are added whenever the user adds one to the database-->
+            <option value="Irvine_ID">Irvine</option>
+            <option value="Seattle_ID">Seattle</option>
+        </select><br>
+        Roles (Choose one or many [Use CTRL-Click to select]) (Automatically links role to company): <br>
+        <select id="company_roles" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
+            <option value="QAM_ID">QAM</option>
+            <option value="SDET_ID">SDET</option>
+        </select><br>
+        <input type="submit" value="Add Company" onclick="add_company();">
+    </form> 
+
+    <h3>Add a Company-Location Relationship</h3>
+    <form action="">
+        <span>Company (Choose one):</span><br>
+        <select id="add_company-location_company_id">
+            <option value="company_id_1">Amazon</option>
+            <option value="company_id_2">Experis</option>
+        </select><br>
+        <span>Company (Choose one):</span><br>
+        <select id="add_company-location_location_id">
+            <option value="location_id_1">Irvine</option>
+            <option value="location_id_2">Seattle</option>
+        </select><br>
+        <input type="submit" value="Add Relation" onclick="add_company_location_relation();">
+    </form>
+
+    <h3>Add Project Role</h3>
+    <form action="">
+        Select one of each from the following fields:<br><br>
+        Project: <br>
+        <select id="add_pr_project" class="projects"> <!--These are added whenever the user adds one to the database-->
+            <option value="New_World_ID">New World</option>
+            <option value="Crucible_ID">Crucible</option>
+        </select><br>
+        Team: <br>
+        <select id="add_pr_team" class="teams"> <!--These are added whenever the user adds one to the database-->
+            <option value="Management_ID">Management</option>
+            <option value="New_World_ID">New World</option>
+        </select><br>
+        Role: <br>
+        <select id="add_pr_role" class="roles"> <!--These are added whenever the user adds one to the database-->
+            <option value="QAM_ID">QAM</option>
+            <option value="SDET_ID">SDET</option>
+        </select><br>
+        Company: <br>
+        <select id="add_pr_company" class="companies"> <!--These are added whenever the user adds one to the database-->
+            <option value="Amazon_ID">Amazon</option>
+            <option value="Experis_ID">Experis</option>
+        </select><br>
+        Location: <br>
+        <select id="add_pr_location" class="locations"> <!--These are added whenever the user adds one to the database-->
+            <option value="Irvine_ID">Irvine</option>
+            <option value="Seattle_ID">Seattle</option>
+        </select><br>
+        <span>Set manpower for the year:</span><br>
+        <table>
+            <tr>
+                <th>January</th>
+                <th>February</th>
+                <th>March</th>
+                <th>April</th>
+                <th>May</th>
+                <th>June</th>
+                <th>July</th>
+                <th>August</th>
+                <th>September</th>
+                <th>October</th>
+                <th>November</th>
+                <th>December</th>
+            </tr>
+            <tr>
+                <td><input type="number" id="january" value="0" step="0.01"></td>
+                <td><input type="number" id="february" value="0" step="0.01"></td>
+                <td><input type="number" id="march" value="0" step="0.01"></td>
+                <td><input type="number" id="april" value="0" step="0.01"></td>
+                <td><input type="number" id="may" value="0" step="0.01"></td>
+                <td><input type="number" id="june" value="0" step="0.01"></td>
+                <td><input type="number" id="july" value="0" step="0.01"></td>
+                <td><input type="number" id="august" value="0" step="0.01"></td>
+                <td><input type="number" id="september" value="0" step="0.01"></td>
+                <td><input type="number" id="october" value="0" step="0.01"></td>
+                <td><input type="number" id="november" value="0" step="0.01"></td>
+                <td><input type="number" id="december" value="0" step="0.01"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Add Project Role" onclick="add_project_role();">
+    </form>
+</main>

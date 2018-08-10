@@ -1,10 +1,22 @@
+//Initialize server tools
 const express = require('express');
+const handlebars = require('express-handlebars');
+const bodyParser = require('body-parser');
+
 const app = express();
 
-//Initialize express application
+app.engine('handlebars', handlebars({defaultLayout: 'main'}));
+app.use(bodyParser.urlencoded({extended:true}));
+app.set('view engine', 'handlebars');
 
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + "/views/index.html");
+app.use('/home', require('./routes/home.js'));
+app.use('/add', require('./routes/add.js'));
+app.use('/remove', require('./routes/remove.js'));
+app.use('/update', require('./routes/update.js'));
+
+//Redirection to the 'home' url on default '/' url
+app.get('/', function(req,res) {
+    res.redirect('/home');
 });
 
 //Listen on port 42069
