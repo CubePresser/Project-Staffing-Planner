@@ -64,4 +64,4 @@ typings/
 package-lock.json
 
 #Don't commit sensitive database info
-dbcon.js
+dbinfo

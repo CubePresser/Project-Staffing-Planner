@@ -2,6 +2,12 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
+const mysql = require('./dbcon.js')({
+    host     : process.argv[2],
+    user     : process.argv[3],
+    password : process.argv[4],
+    database : process.argv[5]
+});
 
 const app = express();
 
@@ -9,6 +15,12 @@ app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
+app.set('mysql', mysql);
+
+//Check database connection
+mysql.pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+});
 
 app.use('/home', require('./routes/home.js'));
 app.use('/add', require('./routes/add.js'));
