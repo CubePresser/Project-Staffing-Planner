@@ -7,6 +7,7 @@ const app = express();
 
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.use(bodyParser.urlencoded({extended:true}));
+app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 
 app.use('/home', require('./routes/home.js'));
@@ -20,4 +21,4 @@ app.get('/', function(req,res) {
 });
 
 //Listen on port 42069
-app.listen(42069, () => console.log('Example app listening on port 42069!'));
+app.listen(42069, () => console.log('Server started listening on port 42069!'));
