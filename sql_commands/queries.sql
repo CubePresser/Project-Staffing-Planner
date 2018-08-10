@@ -114,3 +114,10 @@ SELECT team.name AS associations
 FROM team_project 
 INNER JOIN team ON team_project.team_id = team.id
 WHERE project_id = [Project selected from dropdown]
+
+-- Project role manpower (full year listing)
+select month.id, ifnull(projectrole_month.manpower, 0)
+from projectrole_month
+left join month on month.id = projectrole_month.month_id
+where projectrole_month.project_role_id = [Specific project_role_id]
+order by month.id
