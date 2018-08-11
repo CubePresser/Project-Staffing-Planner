@@ -17,11 +17,6 @@ app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 app.set('mysql', mysql);
 
-//Check database connection
-mysql.pool.getConnection(function(err, connection) {
-    if (err) throw err; // not connected!
-});
-
 app.use('/home', require('./routes/home.js'));
 app.use('/add', require('./routes/add.js'));
 app.use('/remove', require('./routes/remove.js'));

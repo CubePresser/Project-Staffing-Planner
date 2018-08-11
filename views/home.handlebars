@@ -1,7 +1,7 @@
 <main class="site-content">
     <!--Project_Role/Month Table and Total Cost-->
     {{#each project_name}}
-    <h3>{{pr_project}}</h3>
+    <h3>{{name}}</h3>
     <table>
         <tr>
             <th>ID</th>
@@ -26,12 +26,12 @@
         {{#each project_role}}
         <tr>
             <td>{{id}}</td>
-            <td>{{team}}</td>
-            <td>{{role}}</td>
-            <td>{{company}}</td>
-            <td>{{location}}</td>
+            <td>{{team_name}}</td>
+            <td>{{role_name}}</td>
+            <td>{{company_name}}</td>
+            <td>{{location_name}}</td>
             {{#each manpower}}
-            <td>{{this}}</td>
+            <td>{{mp}}</td>
             {{/each}}
             <td>{{total_cost}}</td>
         </tr>
@@ -60,7 +60,6 @@
         </select><br>
         Project (Choose one): <br>
         <select id="q0_project" name="project" class="projects" required> <!--These are added whenever the user adds one to the database-->
-            <option value="1">DELETE ME</option>
             {{#each project}}
             <option value="{{id}}">{{name}}</option>
             {{/each}}
@@ -74,14 +73,12 @@
     <form id="q1_form" action="home/q1" method="POST">
         Role (Choose one): <br>
         <select id="q1_role" name="role" class="roles" required> <!--These are added whenever the user adds one to the database-->
-            <option value="1">DELETE ME</option>
             {{#each role}}
             <option value="{{id}}">{{name}}</option>
             {{/each}}
         </select><br>
         Project (Choose one): <br>
         <select id="q1_project" name="project" class="projects" required>
-            <option value="1">DELETE ME</option>
             {{#each project}}
             <option value="{{id}}">{{name}}</option>
             {{/each}}

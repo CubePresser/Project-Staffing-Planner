@@ -26,5 +26,4 @@ $(document).ready(function() {
         let queryNum = '#q' + i;
         form_handler($(queryNum + '_form'), $(queryNum + '_result'));
     }
-    //form_handler($('#q0_form'), $('#q0_result'));
 });
