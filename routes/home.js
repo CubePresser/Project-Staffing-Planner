@@ -52,12 +52,21 @@ function getMonthsManpower(res, pr, mysql, callback) {
 
 function getListOfProjectRoles(res, mysql, project, callback) {
     sql = `
-        select project_role.id as id, team.name as team_name, role.name as role_name, company.name as company_name, location.name as location_name
+        select project_role.id as id, team.name as team_name, role.name as role_name, company.name as company_name, location.name as location_name, costs.total_cost as total_cost
         from project_role
         inner join team on team.id = project_role.team_id
         inner join role on role.id = project_role.role_id
         inner join company on company.id = project_role.company_id
         inner join location on location.id = project_role.location_id
+        inner join
+        (
+            -- Total cost of each project role over all the months that it operates
+            select project_role.id as prid, ifnull(sum(manpower) * salary, 0) as total_cost
+            from project_role
+            left join projectrole_month on projectrole_month.project_role_id = project_role.id
+            inner join role on role.id = project_role.role_id
+            group by project_role.id
+        ) costs on costs.prid = project_role.id
         where project_role.project_id = ?
         order by id;
     `;
