@@ -1,138 +1,90 @@
-<main class="site-content">
+<p>Warning: Removing any of these entries will remove all associated entries such as project roles. Though it should be noted that removal of a project role will not affect project, team, role, company or location but will affect the months and manpower associated with it</p>
+<h3>Remove Project</h3>
+<form action="">
+    <span>Project (Choose one):</span><br>
+    <select id="remove_project" class="projects" required>
+        <option value="project_id_1">New World</option>
+        <option value="project_id_2">Crucible</option>
+    </select><br>
+    <input type="submit" value="Remove Project" onclick="remove_project();">
+</form>
 
-    <!--Project_Role/Month Table and Total Cost-->
-    <h3>Project_Name</h3>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Team</th>
-            <th>Role</th>
-            <th>Company</th>
-            <th>Location</th>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>April</th>
-            <th>May</th>
-            <th>June</th>
-            <th>July</th>
-            <th>August</th>
-            <th>September</th>
-            <th>October</th>
-            <th>November</th>
-            <th>December</th>
-            <th>Total Cost</th>
-        </tr>
-        <tr>
-            <td>ID#</td>
-            <td>Team_Name</td>
-            <td>Role_Name</td>
-            <td>Company_Name</td>
-            <td>Location_Name</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>$0</td>
-        </tr>
-    </table>
+<h3>Remove Team</h3>
+<form action="">
+    <span>Team (Choose one):</span><br>
+    <select id="remove_team" class="teams" required>
+        <option value="team_id_1">Management</option>
+        <option value="team_id_2">New World</option>
+    </select><br>
+    <input type="submit" value="Remove Team" onclick="remove_team();">
+</form>
 
-    <p>Warning: Removing any of these entries will remove all associated entries such as project roles. Though it should be noted that removal of a project role will not affect project, team, role, company or location but will affect the months and manpower associated with it</p>
-    <h3>Remove Project</h3>
-    <form action="">
-        <span>Project (Choose one):</span><br>
-        <select id="remove_project" class="projects" required>
-            <option value="project_id_1">New World</option>
-            <option value="project_id_2">Crucible</option>
-        </select><br>
-        <input type="submit" value="Remove Project" onclick="remove_project();">
-    </form>
+<h3>Remove Role</h3>
+<form action="">
+    <span>Role (Choose one):</span><br>
+    <select id="remove_role" class="roles" required>
+        <option value="role_id_1">QAM</option>
+        <option value="role_id_2">SDET</option>
+    </select><br>
+    <input type="submit" value="Remove Role" onclick="remove_role();">
+</form>
 
-    <h3>Remove Team</h3>
-    <form action="">
-        <span>Team (Choose one):</span><br>
-        <select id="remove_team" class="teams" required>
-            <option value="team_id_1">Management</option>
-            <option value="team_id_2">New World</option>
-        </select><br>
-        <input type="submit" value="Remove Team" onclick="remove_team();">
-    </form>
+<h3>Remove a Role-Company Relationship</h3>
+<form action="">
+    <span>Role (Choose one):</span><br>
+    <select id="remove_role-company_role_id" required>
+        <option value="role_id_1">QAM</option>
+        <option value="role_id_2">SDET</option>
+    </select><br>
+    <span>Company (Choose one):</span><br>
+    <select id="remove_role-company_company_id" required>
+        <option value="company_id_1">Amazon</option>
+        <option value="company_id_2">Experis</option>
+    </select><br>
+    <input type="submit" value="Remove Relation" onclick="remove_company_relation();">
+</form>
 
-    <h3>Remove Role</h3>
-    <form action="">
-        <span>Role (Choose one):</span><br>
-        <select id="remove_role" class="roles" required>
-            <option value="role_id_1">QAM</option>
-            <option value="role_id_2">SDET</option>
-        </select><br>
-        <input type="submit" value="Remove Role" onclick="remove_role();">
-    </form>
+<h3>Remove Location</h3>
+<form action="">
+    <span>Location (Choose one):</span><br>
+    <select id="remove_location" class="locations" required>
+        <option value="location_id_1">Irvine</option>
+        <option value="location_id_2">Seattle</option>
+    </select><br>
+    <input type="submit" value="Remove Location" onclick="remove_location();">
+</form>
 
-    <h3>Remove a Role-Company Relationship</h3>
-    <form action="">
-        <span>Role (Choose one):</span><br>
-        <select id="remove_role-company_role_id" required>
-            <option value="role_id_1">QAM</option>
-            <option value="role_id_2">SDET</option>
-        </select><br>
-        <span>Company (Choose one):</span><br>
-        <select id="remove_role-company_company_id" required>
-            <option value="company_id_1">Amazon</option>
-            <option value="company_id_2">Experis</option>
-        </select><br>
-        <input type="submit" value="Remove Relation" onclick="remove_company_relation();">
-    </form>
+<h3>Remove Company</h3>
+<form action="">
+    <span>Company (Choose one):</span><br>
+    <select id="remove_company" class="companies" required>
+        <option value="company_id_1">Amazon</option>
+        <option value="company_id_2">Experis</option>
+    </select><br>
+    <input type="submit" value="Remove Company"  onclick="remove_company();">
+</form>
 
-    <h3>Remove Location</h3>
-    <form action="">
-        <span>Location (Choose one):</span><br>
-        <select id="remove_location" class="locations" required>
-            <option value="location_id_1">Irvine</option>
-            <option value="location_id_2">Seattle</option>
-        </select><br>
-        <input type="submit" value="Remove Location" onclick="remove_location();">
-    </form>
+<h3>Remove a Company-Location Relationship</h3>
+<form action="">
+    <span>Company (Choose one):</span><br>
+    <select id="remove_company-location_company_id" required>
+        <option value="company_id_1">Amazon</option>
+        <option value="company_id_2">Experis</option>
+    </select><br>
+    <span>Company (Choose one):</span><br>
+    <select id="remove_company-location_location_id" required>
+        <option value="location_id_1">Irvine</option>
+        <option value="location_id_2">Seattle</option>
+    </select><br>
+    <input type="submit" value="Remove Relation" onclick="remove_company_location_relation();">
+</form>
 
-    <h3>Remove Company</h3>
-    <form action="">
-        <span>Company (Choose one):</span><br>
-        <select id="remove_company" class="companies" required>
-            <option value="company_id_1">Amazon</option>
-            <option value="company_id_2">Experis</option>
-        </select><br>
-        <input type="submit" value="Remove Company"  onclick="remove_company();">
-    </form>
-
-    <h3>Remove a Company-Location Relationship</h3>
-    <form action="">
-        <span>Company (Choose one):</span><br>
-        <select id="remove_company-location_company_id" required>
-            <option value="company_id_1">Amazon</option>
-            <option value="company_id_2">Experis</option>
-        </select><br>
-        <span>Company (Choose one):</span><br>
-        <select id="remove_company-location_location_id" required>
-            <option value="location_id_1">Irvine</option>
-            <option value="location_id_2">Seattle</option>
-        </select><br>
-        <input type="submit" value="Remove Relation" onclick="remove_company_location_relation();">
-    </form>
-
-    <h3>Remove Project Role</h3>
-    <form action="">
-        <span>Project Role ID (Choose One):</span><br>
-        <select id="remove_pr" required>
-            <option value="pr_id_1">Project Role 1</option>
-            <option value="pr_id_2">Project Role 2</option>
-        </select><br>
-        <input type="submit" value="Remove Project Role" onclick="remove_project_role();">
-    </form>
-</main>
+<h3>Remove Project Role</h3>
+<form action="">
+    <span>Project Role ID (Choose One):</span><br>
+    <select id="remove_pr" required>
+        <option value="pr_id_1">Project Role 1</option>
+        <option value="pr_id_2">Project Role 2</option>
+    </select><br>
+    <input type="submit" value="Remove Project Role" onclick="remove_project_role();">
+</form>

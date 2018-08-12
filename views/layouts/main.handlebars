@@ -26,8 +26,50 @@
                         </ul>
                     </nav>
         </header>
+        <main class="site-content">
+            
+            <!--Project_Role/Month Table and Total Cost-->
+            {{#each project_name}}
+            <h3>{{name}}</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Team</th>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>January</th>
+                    <th>February</th>
+                    <th>March</th>
+                    <th>April</th>
+                    <th>May</th>
+                    <th>June</th>
+                    <th>July</th>
+                    <th>August</th>
+                    <th>September</th>
+                    <th>October</th>
+                    <th>November</th>
+                    <th>December</th>
+                    <th>Total Cost</th>
+                </tr>
+                {{#each project_role}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{team_name}}</td>
+                    <td>{{role_name}}</td>
+                    <td>{{company_name}}</td>
+                    <td>{{location_name}}</td>
+                    {{#each manpower}}
+                    <td>{{mp}}</td>
+                    {{/each}}
+                    <td>${{total_cost}}</td>
+                </tr>
+                {{/each}}
+            </table>
+            {{/each}}
+            
+            {{{body}}}
 
-        {{{body}}}
-
+        </main>
     </body>
 </html>
