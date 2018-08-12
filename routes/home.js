@@ -1,16 +1,23 @@
+////////////////////////////////////////////////////////
+// Jonathan Jones - jonesjonathan {GitHub}
+// Project Staffing Planner - ./routes/home.js
+////////////////////////////////////////////////////////
+
+//Get the express router
 var express = require('express');
 var router = express.Router();
 
-function errorCheck(res, error) {
+function isSQLError(error) {
     if(error)
     {
-        res.write(JSON.stringify(error));
-        res.end();
+        let message = "SQL Error: " + error.sqlMessage;
+        console.log(message);
+        res.write(message);
     }
 }
 
-/*
-function getMonthsManpower(res, pr, callback)
+
+function getMonthsManpower(res, pr, mysql, callback)
 {
     sql = `
         select month.id, ifnull(projectrole_month.manpower, 0) as mp
@@ -19,59 +26,88 @@ function getMonthsManpower(res, pr, callback)
         order by month.id;
     `;
     mysql.pool.query(sql, [pr.id], function(error, mp_result, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         pr.manpower = mp_result;
         callback();
     });
 }
-*/
 
-function getProjectRolesList(res, mysql, context, complete) {
-    mysql.pool.query("select * from project", function(error, projects, fields) {
-        errorCheck(res, error);
-        //TODO: Loop through the project names and query their matching project roles for each one
-        projects.forEach(function(project) {
-            /***
-            project_roles_function(params, function() {
-                context.project_name = projects;
-                complete();
-            });
-            ***/
-            sql = `
-                select project_role.id as id, team.name as team_name, role.name as role_name, company.name as company_name, location.name as location_name
-                from project_role
-                inner join team on team.id = project_role.team_id
-                inner join role on role.id = project_role.role_id
-                inner join company on company.id = project_role.company_id
-                inner join location on location.id = project_role.location_id
-                where project_role.project_id = ?
-                order by id;
-            `;
-            mysql.pool.query(sql, [project.id], function(error, project_roles, fields) {
-                errorCheck(res, error);
-                project_roles.forEach(function(pr) {
-                    sql = `
-                    select month.id, ifnull(projectrole_month.manpower, 0) as mp
-                    from month
-                    left join projectrole_month on projectrole_month.month_id = month.id and projectrole_month.project_role_id = ?
-                    order by month.id;
-                    `;
-                    mysql.pool.query(sql, [pr.id], function(error, mp_result, fields) {
-                        errorCheck(res, error);
-                        pr.manpower = mp_result;
-                    });
+function getListOfProjectRoles(res, project, mysql, callback) {
+    sql = `
+        select project_role.id as id, team.name as team_name, role.name as role_name, company.name as company_name, location.name as location_name
+        from project_role
+        inner join team on team.id = project_role.team_id
+        inner join role on role.id = project_role.role_id
+        inner join company on company.id = project_role.company_id
+        inner join location on location.id = project_role.location_id
+        where project_role.project_id = ?
+        order by id;
+    `;
+    mysql.pool.query(sql, [project.id], function(error, project_roles, fields) {
+        isSQLError(error);
+        var len = project_roles.length;
+        var count = 0;
+        if(len == 0) //If there are no project roles associated with the current project
+        {
+            callback();
+        }
+        else {
+            project_roles.forEach(function(pr) {
+                getMonthsManpower(res, pr, mysql, function() {
+                    count++;
+                    if(count >= len)
+                    {
+                        project.project_role = project_roles;
+                        callback();
+                    }
                 });
-                project.project_role = project_roles;
-            });
-        });
-        context.project_name = projects;
-        complete();
+            });    
+        }
+        
+    });
+}
+
+/*************************************************
+ * Function: 
+ * Description: 
+ * Params: 
+ * Returns: 
+ * Pre-conditions: 
+ * Post-conditions: 
+ * **********************************************/
+function getProjectRolesList(res, mysql, context, complete) {
+    sql = `
+        select distinct project.id as id, project.name as name 
+        from project 
+        inner join project_role on project_role.project_id = project.id
+    `;
+    mysql.pool.query(sql, function(error, projects, fields) {
+        isSQLError(error);
+        var len = projects.length;
+        var count = 0;
+        if(len == -1) //If there are no projects
+        {
+            complete();
+        }
+        else {
+            projects.forEach(function(project) 
+            { 
+                getListOfProjectRoles(res, project, mysql, function() {
+                    count++;
+                    if(count >= len)
+                    {
+                        context.project_name = projects;
+                        complete();
+                    }
+                }); 
+            });  
+        }  
     });
 }
 
 function getProjects(res, mysql, context, complete) {
     mysql.pool.query("select * from project", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.project = results;
         complete();
     });
@@ -79,7 +115,7 @@ function getProjects(res, mysql, context, complete) {
 
 function getTeams(res, mysql, context, complete) {
     mysql.pool.query("select * from team", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.team = results;
         complete();
     });
@@ -87,7 +123,7 @@ function getTeams(res, mysql, context, complete) {
 
 function getRoles(res, mysql, context, complete) {
     mysql.pool.query("select * from role", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.role = results;
         complete();
     });
@@ -95,7 +131,7 @@ function getRoles(res, mysql, context, complete) {
 
 function getCompanies(res, mysql, context, complete) {
     mysql.pool.query("select * from company", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.company = results;
         complete();
     });
@@ -103,7 +139,7 @@ function getCompanies(res, mysql, context, complete) {
 
 function getLocations(res, mysql, context, complete) {
     mysql.pool.query("select * from location", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.location = results;
         complete();
     });
@@ -111,7 +147,7 @@ function getLocations(res, mysql, context, complete) {
 
 function getProjectRoles(res, mysql, context, complete) {
     mysql.pool.query("select * from project_role order by id", function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         context.project_role = results;
         complete();
     });
@@ -119,7 +155,7 @@ function getProjectRoles(res, mysql, context, complete) {
 
 function totalCostResponse(res, mysql, sql, inserts) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
-        errorCheck(res, error);
+        isSQLError(error);
         var total_cost = results[0].total_cost;
         res.write("Total Cost: $" + (total_cost == null ? 0 : total_cost));
         res.end();
@@ -149,6 +185,7 @@ router.get('/', function(req, res) {
         callbackCount++;
         if(callbackCount >= 7)
         {
+            console.log("Rendered home page");
             res.render('home', context);
         }
     }
@@ -220,11 +257,14 @@ router.post('/q3', function(req, res) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(error)
         {
-            res.write(JSON.stringify(error));
+            res.write("SQL Error: " + error.sqlMessage);
             res.end();
         }
-        res.write(results);
-        res.end();
+        else {
+            res.write(results);
+            res.end();
+        }
+        
     });
 });
 
@@ -238,11 +278,13 @@ router.post('/q4', function(req, res) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(error)
         {
-            res.write(JSON.stringify(error));
+            res.write("SQL Error: " + error.sqlMessage);
             res.end();
         }
-        res.write(results);
-        res.end();
+        else {
+            res.write(results);
+            res.end();
+        }
     });
 });
 
@@ -256,11 +298,13 @@ router.post('/q5', function(req, res) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(error)
         {
-            res.write(JSON.stringify(error));
+            res.write("SQL Error: " + error.sqlMessage);
             res.end();
         }
-        res.write(results);
-        res.end();
+        else {
+            res.write(results);
+            res.end();
+        }
     });
 });
 
@@ -274,11 +318,13 @@ router.post('/q6', function(req, res) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(error)
         {
-            res.write(JSON.stringify(error));
+            res.write("SQL Error: " + error.sqlMessage);
             res.end();
         }
-        res.write(results);
-        res.end();
+        else {
+            res.write(results);
+            res.end();
+        }
     });
 });
 
@@ -292,11 +338,13 @@ router.post('/q7', function(req, res) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(error)
         {
-            res.write(JSON.stringify(error));
+            res.write("SQL Error: " + error.sqlMessage);
             res.end();
         }
-        res.write(results);
-        res.end();
+        else {
+            res.write(results);
+            res.end();
+        }
     });
 });
 
