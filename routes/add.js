@@ -44,15 +44,14 @@ function add_role(req, res, mysql, callback)
                 res.write(req.body.name);
                 if(req.body.hasOwnProperty("company")) //If companies have been selected
                 {
-                    var options = {
-                        r_table : "role_company",
-                        id_1 : "role_id",
-                        id_2 : "company_id",
-                        entity : "role",
+                    relate_entities(res, mysql, {
+                        r_table     : "role_company",
+                        id_1        : "role_id",
+                        id_2        : "company_id",
+                        entity      : "role",
                         entity_name : req.body.name,
-                        entities : req.body.company
-                    };
-                    relate_entities(res, mysql, options, callback);
+                        entities    : (req.body.company.length == 1 ? [req.body.company] : req.body.company)
+                    }, callback);
                 }
                 else
                 {
@@ -70,8 +69,87 @@ function add_role(req, res, mysql, callback)
         res.write("Please enter a valid salary");
         callback(false);
     }
-
     
+}
+
+function add_location(req, res, mysql, callback)
+{
+    var sql = `
+        insert into location (name) values (?)
+    `;
+    var inserts = [req.body.name];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(!query_driver.isSQLError(res, error))
+        {
+            res.write(req.body.name);
+            if(req.body.hasOwnProperty("company")) //If companies have been selected
+            {
+                relate_entities(res, mysql, {
+                    r_table     : "company_location",
+                    id_1        : "location_id",
+                    id_2        : "company_id",
+                    entity      : "location",
+                    entity_name : req.body.name,
+                    entities    : (req.body.company.length == 1 ? [req.body.company] : req.body.company)
+                }, callback);
+
+            }
+            else
+            {
+                callback(true); //No companies selected but query is good so return with a success value
+            }
+        }
+        else
+        {
+            callback(false);
+        }
+    });    
+}
+
+function add_company(req, res, mysql, callback)
+{
+    var sql = `
+        insert into company (name) values (?)
+    `;
+    var inserts = [req.body.name];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(!query_driver.isSQLError(res, error))
+        {
+            res.write(req.body.name);
+            
+            var count = 0;
+
+            relate_entities(res, mysql, {
+                r_table     : "company_location",
+                id_1        : "company_id",
+                id_2        : "location_id",
+                entity      : "company",
+                entity_name : req.body.name,
+                entities    : (req.body.location.length == 1 ? [req.body.location] : req.body.location)
+            }, complete);
+
+            relate_entities(res, mysql, {
+                r_table     : "role_company",
+                id_1        : "company_id",
+                id_2        : "role_id",
+                entity      : "company",
+                entity_name : req.body.name,
+                entities    : (req.body.role.length == 1 ? [req.body.role] : req.body.role)
+            }, complete);
+
+            function complete(success) {
+                count++;
+                if(count >= 2)
+                {
+                    callback(success);
+                }
+            }
+        }
+        else //Query failed
+        {
+            callback(false);
+        }
+    });
 }
 
 router.get('/', function(req, res) {
@@ -193,8 +271,58 @@ router.post('/add_role', function(req, res) {
             res.end();
         }
     });
-    
-    
+});
+
+router.post('/add_role-company', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        insert into role_company (role_id, company_id) values (?, ?)
+    `;
+    mysql.pool.query(sql, [req.body.role, req.body.company], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.write("relationship");
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/add_location', function(req, res) {
+    var mysql = req.app.get('mysql');
+    add_location(req, res, mysql, function(success) {
+        if(success)
+        {
+            res.status(200);
+            res.end();  
+        }
+        else
+        {
+            res.status(400);
+            res.end();
+        }
+    });
+});
+
+router.post('/add_company', function(req, res) {
+    var mysql = req.app.get('mysql');
+    add_company(req, res, mysql, function(success) {
+        if(success)
+        {
+            res.status(200);
+            res.end();  
+        }
+        else
+        {
+            res.status(400);
+            res.end();
+        }
+    });
 });
 
 module.exports = router;
