@@ -1,90 +1,99 @@
-<p>Warning: Removing any of these entries will remove all associated entries such as project roles. Though it should be noted that removal of a project role will not affect project, team, role, company or location but will affect the months and manpower associated with it</p>
 <h3>Remove Project</h3>
-<form action="">
+<form id="project_form" action="remove/remove_project" method="POST">
     <span>Project (Choose one):</span><br>
-    <select id="remove_project" class="projects" required>
-        <option value="project_id_1">New World</option>
-        <option value="project_id_2">Crucible</option>
+    <select id="remove_project" name="project" class="projects" required>
+        {{#each project}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Project" onclick="remove_project();">
+    <input type="submit" value="Remove Project">
 </form>
 
 <h3>Remove Team</h3>
-<form action="">
+<form id="team_form" action="remove/remove_team" method="POST">
     <span>Team (Choose one):</span><br>
-    <select id="remove_team" class="teams" required>
-        <option value="team_id_1">Management</option>
-        <option value="team_id_2">New World</option>
+    <select id="remove_team" name="team" class="teams" required>
+        {{#each team}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Team" onclick="remove_team();">
+    <input type="submit" value="Remove Team">
 </form>
 
 <h3>Remove Role</h3>
-<form action="">
+<form id="role_form" action="remove/remove_role" method="POST">
     <span>Role (Choose one):</span><br>
-    <select id="remove_role" class="roles" required>
-        <option value="role_id_1">QAM</option>
-        <option value="role_id_2">SDET</option>
+    <select id="remove_role" name="role" class="roles" required>
+        {{#each role}}
+        <option value="{{id}}">{{name}} [${{salary}}/month]</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Role" onclick="remove_role();">
+    <input type="submit" value="Remove Role">
 </form>
 
 <h3>Remove a Role-Company Relationship</h3>
-<form action="">
+<form id="role-company_form" action="remove/remove_role-company" method="POST">
     <span>Role (Choose one):</span><br>
-    <select id="remove_role-company_role_id" required>
-        <option value="role_id_1">QAM</option>
-        <option value="role_id_2">SDET</option>
+    <select id="remove_role-company_role_id" name="role" class="roles" required>
+        {{#each role}}
+        <option value="{{id}}">{{name}} [${{salary}}/month]</option>
+        {{/each}}
     </select><br>
     <span>Company (Choose one):</span><br>
-    <select id="remove_role-company_company_id" required>
-        <option value="company_id_1">Amazon</option>
-        <option value="company_id_2">Experis</option>
+    <select id="remove_role-company_company_id" name="company" class="companies" required>
+        {{#each company}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Relation" onclick="remove_company_relation();">
+    <input type="submit" value="Remove Relation">
 </form>
 
 <h3>Remove Location</h3>
-<form action="">
+<form id="location_form" action="remove/remove_location" method="POST">
     <span>Location (Choose one):</span><br>
-    <select id="remove_location" class="locations" required>
-        <option value="location_id_1">Irvine</option>
-        <option value="location_id_2">Seattle</option>
+    <select id="remove_location" name="location" class="locations" required>
+        {{#each location}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Location" onclick="remove_location();">
+    <input type="submit" value="Remove Location">
 </form>
 
 <h3>Remove Company</h3>
-<form action="">
+<form id="company_form" action="remove/remove_company" method="POST">
     <span>Company (Choose one):</span><br>
-    <select id="remove_company" class="companies" required>
-        <option value="company_id_1">Amazon</option>
-        <option value="company_id_2">Experis</option>
+    <select id="remove_company" name="company" class="companies" required>
+        {{#each company}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Company"  onclick="remove_company();">
+    <input type="submit" value="Remove Company">
 </form>
 
 <h3>Remove a Company-Location Relationship</h3>
-<form action="">
+<form id="company-location_form" action="remove/remove_company-location" method="POST">
     <span>Company (Choose one):</span><br>
-    <select id="remove_company-location_company_id" required>
-        <option value="company_id_1">Amazon</option>
-        <option value="company_id_2">Experis</option>
+    <select id="remove_company-location_company_id" name="company" class="companies" required>
+        {{#each company}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
     <span>Company (Choose one):</span><br>
-    <select id="remove_company-location_location_id" required>
-        <option value="location_id_1">Irvine</option>
-        <option value="location_id_2">Seattle</option>
+    <select id="remove_company-location_location_id" name="location" class="locations" required>
+        {{#each location}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Relation" onclick="remove_company_location_relation();">
+    <input type="submit" value="Remove Relation">
 </form>
 
 <h3>Remove Project Role</h3>
-<form action="">
+<form id="project_role_form" action="remove/remove_project_role" method="POST">
     <span>Project Role ID (Choose One):</span><br>
-    <select id="remove_pr" required>
-        <option value="pr_id_1">Project Role 1</option>
-        <option value="pr_id_2">Project Role 2</option>
+    <select id="remove_pr" name="project_role" class="prids" required>
+        {{#each project_role}}
+        <option value="{{id}}">{{id}}</option>
+        {{/each}}
     </select><br>
-    <input type="submit" value="Remove Project Role" onclick="remove_project_role();">
+    <input type="submit" value="Remove Project Role">
 </form>

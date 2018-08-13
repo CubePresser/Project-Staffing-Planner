@@ -17,7 +17,7 @@
     Role Name: <br> 
     <input type="text" name="name" id="role_name" required><br>
     Salary ($/Month): <br>
-    <input type="number" name="salary" id="salary" required><br>
+    <input type="number" name="salary" id="salary" min="0" required><br>
     Link to companies (optional): <br>
     <select id="role_companies" name="company" class="companies" multiple> <!--These are added whenever the user adds one to the database-->
         {{#each company}}
