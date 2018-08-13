@@ -63,4 +63,103 @@ router.get('/', function(req, res) {
     }
 });
 
+router.post('/add_project', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        insert into project (name) values (?)
+    `;
+    var inserts = [req.body.name];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.write(req.body.name);
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/add_team', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        insert into team (name) values (?)
+    `;
+    var inserts = [req.body.name];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.write(req.body.name);
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+function add_role(req, res, mysql, callback)
+{
+    var status = false;
+    var sql = `
+        insert into role (name, salary) values (?, ?)
+    `;
+    var inserts = [req.body.name, req.body.salary];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(!query_driver.isSQLError(res, error))
+        {
+            res.write(req.body.name);
+            status = true;
+        }
+    });
+
+    //If companies were selected
+    if(req.body.hasOwnProperty("company") && status)
+    {
+        var rows = req.body.company.length;
+        var count = 0;
+        sql = "insert into role_company (role_id, company_id) values ((select id from role where name = ?), ?)"
+        req.body.company.forEach(function(item) {
+            mysql.pool.query(sql, [req.body.name, item], function(error, results, fields) {
+                if(query_driver.isSQLError(res, error))
+                {
+                    status = false;
+                }
+
+                count++;
+
+                if(count >= rows)
+                {
+                    callback(status);
+                }
+            });
+        });
+    }
+}
+
+router.post('/add_role', function(req, res) {
+    var mysql = req.app.get('mysql');
+    add_role(req, res, mysql, function(success) {
+        if(success)
+        {
+            res.status(200);
+            res.end();  
+        }
+        else
+        {
+            res.status(400);
+            res.end();
+        }
+    });
+    
+    
+});
+
 module.exports = router;
