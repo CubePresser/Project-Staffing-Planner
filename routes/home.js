@@ -196,8 +196,11 @@ function totalCostResponse(res, mysql, sql, inserts, callback) {
         }
         else
         {
-            var total_cost = results[0].total_cost;
-            res.write("Total Cost: $" + (total_cost == null ? 0 : total_cost));
+            if(results.length != 0)
+            {
+                var total_cost = results[0].total_cost;
+                res.write("Total Cost: $" + (total_cost == null ? 0 : total_cost));
+            }
             callback(true);
         }
         
@@ -363,17 +366,29 @@ router.post('/q2', function(req, res) {
 router.post('/q3', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        
+        SELECT company.name AS company_name, role.name AS role_name 
+        FROM role_company 
+        INNER JOIN role ON role_company.role_id = role.id
+        INNER JOIN company on company.id = role_company.company_id
+        WHERE role_company.company_id = ?
     `;
-    var inserts = [];
+    var inserts = [req.body.company];
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(isSQLError(res, error))
         {
             res.status(400);
             res.end();
         }
-        else
+        else //Success!
         {
+            if(results.length != 0)
+            {
+                res.write(results[0].company_name + " has the roles:");
+                results.forEach(function(row) {
+                    res.write("\t" + row.role_name + ",");
+                }); 
+            }
+            
             res.status(200);
             res.end();
         }
@@ -385,9 +400,13 @@ router.post('/q3', function(req, res) {
 router.post('/q4', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        
+        SELECT company.name AS company_name, role.name as role_name 
+        FROM role_company 
+        INNER JOIN company ON role_company.company_id = company.id
+        INNER JOIN role ON role_company.role_id = role.id
+        WHERE role_id = ?
     `;
-    var inserts = [];
+    var inserts = [req.body.role];
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(isSQLError(res, error))
         {
@@ -396,6 +415,14 @@ router.post('/q4', function(req, res) {
         }
         else
         {
+            if(results.length != 0)
+            {
+                res.write(results[0].role_name + "s are available at:");
+                results.forEach(function(row) {
+                    res.write("\t" + row.company_name + ",");
+                }); 
+            }
+            
             res.status(200);
             res.end();
         }
@@ -406,9 +433,12 @@ router.post('/q4', function(req, res) {
 router.post('/q5', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        
+        SELECT AVG(manpower) AS average_manpower 
+        FROM projectrole_month 
+        INNER JOIN project_role ON projectrole_month.project_role_id = project_role.id 
+        WHERE project_role.id = ?;
     `;
-    var inserts = [];
+    var inserts = [req.body.project_role];
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(isSQLError(res, error))
         {
@@ -417,6 +447,12 @@ router.post('/q5', function(req, res) {
         }
         else
         {
+            if(results.length != 0)
+            {
+                var avg_manpower = results[0].average_manpower;
+                res.write("Average Manpower: " + (avg_manpower == null ? 0 : avg_manpower));
+            }
+            
             res.status(200);
             res.end();
         }
@@ -427,9 +463,13 @@ router.post('/q5', function(req, res) {
 router.post('/q6', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        
+        SELECT project.name as project_name, team.name as team_name
+        FROM team_project 
+        INNER JOIN project ON team_project.project_id = project.id
+        INNER JOIN team ON team.id = team_project.team_id
+        WHERE team_id = ?
     `;
-    var inserts = [];
+    var inserts = [req.body.team];
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(isSQLError(res, error))
         {
@@ -438,6 +478,14 @@ router.post('/q6', function(req, res) {
         }
         else
         {
+            if(results.length != 0)
+            {
+                res.write(results[0].team_name + " is currently working on:");
+                results.forEach(function(row) {
+                    res.write("\t" + row.project_name + ",");
+                }); 
+            }
+            
             res.status(200);
             res.end();
         }
@@ -448,9 +496,13 @@ router.post('/q6', function(req, res) {
 router.post('/q7', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        
+        SELECT team.name as team_name, project.name as project_name
+        FROM team_project 
+        INNER JOIN team ON team_project.team_id = team.id
+        INNER JOIN project ON team_project.project_id = project.id
+        WHERE project_id = ?
     `;
-    var inserts = [];
+    var inserts = [req.body.project];
     mysql.pool.query(sql, inserts, function(error, results, fields) {
         if(isSQLError(res, error))
         {
@@ -459,6 +511,14 @@ router.post('/q7', function(req, res) {
         }
         else
         {
+            if(results.length != 0)
+            {
+                res.write(results[0].project_name + " is being developed by:");
+                results.forEach(function(row) {
+                    res.write("\t" + row.team_name + ",");
+                }); 
+            }
+            
             res.status(200);
             res.end();
         }
