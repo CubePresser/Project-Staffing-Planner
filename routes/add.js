@@ -152,6 +152,109 @@ function add_company(req, res, mysql, callback)
     });
 }
 
+function add_manpower(req, res, mysql, prid, callback) {
+    var sql = `
+        insert into projectrole_month (project_role_id, month_id, manpower)
+        values
+            (?, 1, ?),
+            (?, 2, ?),
+            (?, 3, ?),
+            (?, 4, ?),
+            (?, 5, ?),
+            (?, 6, ?),
+            (?, 7, ?),
+            (?, 8, ?),
+            (?, 9, ?),
+            (?, 10, ?),
+            (?, 11, ?),
+            (?, 12, ?);
+    `;
+    var inserts = [
+        prid, req.body.January,
+        prid, req.body.February,
+        prid, req.body.March,
+        prid, req.body.April,
+        prid, req.body.May,
+        prid, req.body.June,
+        prid, req.body.July,
+        prid, req.body.August,
+        prid, req.body.September,
+        prid, req.body.October,
+        prid, req.body.November,
+        prid, req.body.December
+    ];
+    mysql.pool.query(sql, inserts, function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            callback(false);
+        }
+        else
+        {
+            callback(true);
+        }
+    });
+}
+
+function getPRID(inserts, res, mysql, callback) {
+    var sql = `
+        select id 
+        from project_role -- This will get the automatically generated project id that above query generated
+        where
+            project_id = ? and
+            team_id = ? and
+            role_id = ? and
+            company_id = ? and
+            location_id = ?
+    `;
+    mysql.pool.query(sql, inserts, function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            callback({ success : false });
+        }
+        else
+        {
+            callback({success : true, id : result[0].id});
+        }
+    });
+}
+
+function add_project_role(req, res, mysql, callback)
+{
+    sql = `
+        insert into project_role (project_id, team_id, role_id, company_id, location_id)
+        values (?, ? ,? ,? ,?);
+    `;
+    var inserts = [
+        req.body.project,
+        req.body.team,
+        req.body.role,
+        req.body.company,
+        req.body.location
+    ];
+    mysql.pool.query(sql, inserts, function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            callback(false);
+        }
+        else
+        {
+            getPRID(inserts, res, mysql, function(results) {
+                if(results.success)
+                {
+                    add_manpower(req, res, mysql, results.id, function(status) {
+                        callback(status);
+                    });
+                }
+                else
+                {
+                    callback(false);
+                }
+            });
+        }
+    });
+    
+}
+
 router.get('/', function(req, res) {
     var mysql = req.app.get('mysql');
 
@@ -345,112 +448,8 @@ router.post('/add_company-location', function(req, res) {
     });
 });
 
-function add_manpower(req, res, mysql, prid, callback) {
-    var sql = `
-        insert into projectrole_month (project_role_id, month_id, manpower)
-        values
-            (?, 1, ?),
-            (?, 2, ?),
-            (?, 3, ?),
-            (?, 4, ?),
-            (?, 5, ?),
-            (?, 6, ?),
-            (?, 7, ?),
-            (?, 8, ?),
-            (?, 9, ?),
-            (?, 10, ?),
-            (?, 11, ?),
-            (?, 12, ?);
-    `;
-    var inserts = [
-        prid, req.body.January,
-        prid, req.body.February,
-        prid, req.body.March,
-        prid, req.body.April,
-        prid, req.body.May,
-        prid, req.body.June,
-        prid, req.body.July,
-        prid, req.body.August,
-        prid, req.body.September,
-        prid, req.body.October,
-        prid, req.body.November,
-        prid, req.body.December
-    ];
-    mysql.pool.query(sql, inserts, function(error, result, fields) {
-        if(query_driver.isSQLError(res, error))
-        {
-            callback(false);
-        }
-        else
-        {
-            callback(true);
-        }
-    });
-}
-
-function getPRID(inserts, res, mysql, callback) {
-    var sql = `
-        select id 
-        from project_role -- This will get the automatically generated project id that above query generated
-        where
-            project_id = ? and
-            team_id = ? and
-            role_id = ? and
-            company_id = ? and
-            location_id = ?
-    `;
-    mysql.pool.query(sql, inserts, function(error, result, fields) {
-        if(query_driver.isSQLError(res, error))
-        {
-            callback({ success : false });
-        }
-        else
-        {
-            callback({success : true, id : result[0].id});
-        }
-    });
-}
-
-function add_project_role(req, res, mysql, callback)
-{
-    sql = `
-        insert into project_role (project_id, team_id, role_id, company_id, location_id)
-        values (?, ? ,? ,? ,?);
-    `;
-    var inserts = [
-        req.body.project,
-        req.body.team,
-        req.body.role,
-        req.body.company,
-        req.body.location
-    ];
-    mysql.pool.query(sql, inserts, function(error, result, fields) {
-        if(query_driver.isSQLError(res, error))
-        {
-            callback(false);
-        }
-        else
-        {
-            getPRID(inserts, res, mysql, function(results) {
-                if(results.success)
-                {
-                    add_manpower(req, res, mysql, results.id, function(status) {
-                        callback(status);
-                    });
-                }
-                else
-                {
-                    callback(false);
-                }
-            });
-        }
-    });
-    
-}
-
 router.post('/add_project_role', function(req, res) {
     var mysql = req.app.get('mysql');
-    console.log("Adding project role");
     add_project_role(req, res, mysql, function(success) {
         if(success)
         {

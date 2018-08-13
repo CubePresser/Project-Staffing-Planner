@@ -9,4 +9,12 @@ function updateWebpage(response, options) {
 $(document).ready(function() {
     //formHandler call goes here
     //form_handler($('#id'), updateWebpage, {type : "project"});
+    form_handler($('#project_form'), updateWebpage, {type : "project"});
+    form_handler($('#team_form'), updateWebpage, {type : "team"});
+    form_handler($('#role_form'), updateWebpage, {type : "role"});
+    form_handler($('#role-company_form'), updateWebpage, {type : "role-company"});
+    form_handler($('#location_form'), updateWebpage, {type : "location"});
+    form_handler($('#company_form'), updateWebpage, {type : "company"});
+    form_handler($('#company-location_form'), updateWebpage, {type : "company-location"});
+    form_handler($('#project_role_form'), updateWebpage, {type : "project role"}); 
 });
