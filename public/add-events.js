@@ -14,4 +14,6 @@ $(document).ready(function() {
     form_handler($('#role-company_form'), updateWebpage, {type : "role-company"});
     form_handler($('#location_form'), updateWebpage, {type : "location"});
     form_handler($('#company_form'), updateWebpage, {type : "company"});
+    form_handler($('#company-location_form'), updateWebpage, {type : "company-location"});
+    form_handler($('#project_role_form'), updateWebpage, {type : "project_role"});
 });

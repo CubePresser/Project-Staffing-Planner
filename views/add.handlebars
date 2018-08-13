@@ -94,7 +94,7 @@
 </form>
 
 <h3>Add Project Role</h3>
-<form id="project_role_form" action="add/add_project_role">
+<form id="project_role_form" action="add/add_project_role" method="POST">
     Select one of each from the following fields:<br><br>
     Project: <br>
     <select id="add_pr_project" name="project" class="projects" required> <!--These are added whenever the user adds one to the database-->
@@ -143,18 +143,18 @@
             <th>December</th>
         </tr>
         <tr>
-            <td><input type="number" name="1" value="0" step="0.01"></td>
-            <td><input type="number" name="2" value="0" step="0.01"></td>
-            <td><input type="number" name="3" value="0" step="0.01"></td>
-            <td><input type="number" name="4" value="0" step="0.01"></td>
-            <td><input type="number" name="5" value="0" step="0.01"></td>
-            <td><input type="number" name="6" value="0" step="0.01"></td>
-            <td><input type="number" name="7" value="0" step="0.01"></td>
-            <td><input type="number" name="8" value="0" step="0.01"></td>
-            <td><input type="number" name="9" value="0" step="0.01"></td>
-            <td><input type="number" name="10" value="0" step="0.01"></td>
-            <td><input type="number" name="11" value="0" step="0.01"></td>
-            <td><input type="number" name="12" value="0" step="0.01"></td>
+            <td><input type="number" name="January" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="February" value="0" step="0.01"  min="0"></td>
+            <td><input type="number" name="March" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="April" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="May" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="June" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="July" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="August" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="September" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="October" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="November" value="0" step="0.01" min="0"></td>
+            <td><input type="number" name="December" value="0" step="0.01" min="0"></td>
         </tr>
     </table>
     <input type="submit" value="Add Project Role">
