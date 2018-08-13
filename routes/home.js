@@ -4,9 +4,9 @@
 ////////////////////////////////////////////////////////
 
 //Get the express router
-var express = require('express');
-var router = express.Router();
-var query_driver = require('./query-driver.js');
+const express = require('express');
+const router = express.Router();
+const query_driver = require('./query-driver.js');
 
 function totalCostResponse(res, mysql, sql, inserts, callback) {
     mysql.pool.query(sql, inserts, function(error, results, fields) {
@@ -36,7 +36,7 @@ router.get('/', function(req, res) {
 
     var context = {}; //Handlebars info
     context.title = "Home";
-    context.scripts = ["home-ajax.js"];
+    context.scripts = ["home-events.js", "form-handler.js"];
 
     query_driver.getProjectRolesList(res, mysql, context, complete);
     //Gets project table to fill dropdown

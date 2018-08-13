@@ -32,7 +32,7 @@
     Role (Choose one): <br>
     <select id="q1_role" name="role" class="roles" required> <!--These are added whenever the user adds one to the database-->
         {{#each role}}
-        <option value="{{id}}">{{name}}</option>
+        <option value="{{id}}">{{name}} [${{salary}}/month]</option>
         {{/each}}
     </select><br>
     Project (Choose one): <br>
@@ -81,14 +81,14 @@
     Role (Choose one): <br>
     <select id="q4_role" name="role" class="roles" required>
         {{#each role}}
-        <option value="{{id}}">{{name}}</option>
+        <option value="{{id}}">{{name}} [${{salary}}/month]</option>
         {{/each}}
     </select><br>
     <input type="submit"><br>
     <span id="q4_result"></span>
 </form>
 
-<h3>Average manpower over the year for a single project role</h3>
+<h3>Average manpower during project for a single project role</h3>
 <form id="q5_form" action="home/q5" method="POST">
     Project Role ID (Choose one): <br>
     <select id="q5_prid" name="project_role" class="prids" required>

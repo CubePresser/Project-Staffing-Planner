@@ -1,3 +1,8 @@
+////////////////////////////////////////////////////////
+// Jonathan Jones - jonesjonathan {GitHub}
+// Project Staffing Planner - ./routes/query-driver.js
+////////////////////////////////////////////////////////
+
 /*************************************************
  * Function: isSQLError
  * Description: Checks for an sql error from the argument passed in.
