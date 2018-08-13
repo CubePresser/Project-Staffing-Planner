@@ -2,6 +2,78 @@ const express = require('express');
 const router = express.Router();
 const query_driver = require('./query-driver.js');
 
+//Relates a single entity to multiple others
+function relate_entities(res, mysql, options, callback) {
+    //Need Relation table name, two id attribute names, single entity table name, single entity name, array of other entity ids
+    var rows = options.entities.length;
+    var count = 0;
+    var status = true;
+
+    sql = "insert into " + options.r_table + " (" + options.id_1 + ", " + options.id_2 + ") values ((select id from " + options.entity + " where name = ?), ?)";
+    options.entities.forEach(function(item) {
+        let inserts = [options.entity_name, item];
+        mysql.pool.query(sql, inserts, function(error, results, fields) {
+            if(query_driver.isSQLError(res, error))
+            {
+                status = false;
+            }
+
+            count++;
+
+            if(count >= rows)
+            {
+                callback(status);
+            }
+        });
+    });
+}
+
+function add_role(req, res, mysql, callback)
+{
+    var sql = `
+        insert into role (name, salary) values (?, ?)
+    `;
+
+    //Validate user input
+    if(req.body.salary >= 0) //Make sure that user has entered a valid salary that is greater than 0
+    {
+        var inserts = [req.body.name, req.body.salary];
+        mysql.pool.query(sql, inserts, function(error, results, fields) {
+            if(!query_driver.isSQLError(res, error))
+            {
+                res.write(req.body.name);
+                if(req.body.hasOwnProperty("company")) //If companies have been selected
+                {
+                    var options = {
+                        r_table : "role_company",
+                        id_1 : "role_id",
+                        id_2 : "company_id",
+                        entity : "role",
+                        entity_name : req.body.name,
+                        entities : req.body.company
+                    };
+                    relate_entities(res, mysql, options, callback);
+                }
+                else
+                {
+                    callback(true); //No companies selected but query is good so return with a success value
+                }
+            }
+            else
+            {
+                callback(false);
+            }
+        });    
+    }
+    else
+    {
+        res.write("Please enter a valid salary");
+        callback(false);
+    }
+
+    
+}
+
 router.get('/', function(req, res) {
     var mysql = req.app.get('mysql');
 
@@ -105,44 +177,7 @@ router.post('/add_team', function(req, res) {
     });
 });
 
-function add_role(req, res, mysql, callback)
-{
-    var status = false;
-    var sql = `
-        insert into role (name, salary) values (?, ?)
-    `;
-    var inserts = [req.body.name, req.body.salary];
-    mysql.pool.query(sql, inserts, function(error, results, fields) {
-        if(!query_driver.isSQLError(res, error))
-        {
-            res.write(req.body.name);
-            status = true;
-        }
-    });
 
-    //If companies were selected
-    if(req.body.hasOwnProperty("company") && status)
-    {
-        var rows = req.body.company.length;
-        var count = 0;
-        sql = "insert into role_company (role_id, company_id) values ((select id from role where name = ?), ?)"
-        req.body.company.forEach(function(item) {
-            mysql.pool.query(sql, [req.body.name, item], function(error, results, fields) {
-                if(query_driver.isSQLError(res, error))
-                {
-                    status = false;
-                }
-
-                count++;
-
-                if(count >= rows)
-                {
-                    callback(status);
-                }
-            });
-        });
-    }
-}
 
 router.post('/add_role', function(req, res) {
     var mysql = req.app.get('mysql');
