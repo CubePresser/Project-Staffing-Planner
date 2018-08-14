@@ -358,7 +358,25 @@ router.post('/add_team', function(req, res) {
     });
 });
 
-
+router.post('/add_team-project', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        insert into team_project (team_id, project_id) values (?, ?)
+    `;
+    mysql.pool.query(sql, [req.body.team, req.body.project], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.write("relationship");
+            res.status(200);
+            res.end();
+        }
+    });
+});
 
 router.post('/add_role', function(req, res) {
     var mysql = req.app.get('mysql');
