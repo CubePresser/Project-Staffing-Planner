@@ -20,6 +20,23 @@
     <input type="submit" value="Remove Team">
 </form>
 
+<h3>Remove a Team-Project Relationship</h3>
+<form id="team-project_form" action="remove/remove_team-project" method="POST">
+    <span>Team (Choose one):</span><br>
+    <select id="remove_team-project_team_id" name="team" class="teams" required>
+        {{#each team}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <span>Project (Choose one):</span><br>
+    <select id="remove_team-project_project_id" name="project" class="projects" required>
+        {{#each project}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Remove Relation">
+</form>
+
 <h3>Remove Role</h3>
 <form id="role_form" action="remove/remove_role" method="POST">
     <span>Role (Choose one):</span><br>

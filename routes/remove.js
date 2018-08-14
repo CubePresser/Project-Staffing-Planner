@@ -106,7 +106,25 @@ router.post('/remove_team', function(req, res) {
     });
 });
 
-
+router.post('/remove_team-project', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        delete from team_project where team_id = ? and project_id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.team, req.body.project], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.write("relationship");
+            res.status(200);
+            res.end();
+        }
+    });
+});
 
 router.post('/remove_role', function(req, res) {
     var mysql = req.app.get('mysql');
@@ -130,7 +148,7 @@ router.post('/remove_role', function(req, res) {
 router.post('/remove_role-company', function(req, res) {
     var mysql = req.app.get('mysql');
     var sql = `
-        delete from role_company where role_id = ? and company_id = ?;
+        v
     `;
     mysql.pool.query(sql, [req.body.role, req.body.company], function(error, result, fields) {
         if(query_driver.isSQLError(res, error))
