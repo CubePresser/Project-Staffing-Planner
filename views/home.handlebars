@@ -123,3 +123,27 @@
     <input type="submit"><br>
     <span id="q7_result"></span>
 </form>
+
+<h3>Companies associated with a location</h3>
+<form id="q8_form" action="home/q8" method="POST">
+    Project (Choose one): <br>
+    <select id="q8_location" name="location" class="locations" required>
+        {{#each location}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit"><br>
+    <span id="q8_result"></span>
+</form>
+
+<h3>Locations associated with a company</h3>
+<form id="q9_form" action="home/q9" method="POST">
+    Project (Choose one): <br>
+    <select id="q9_company" name="company" class="companies" required>
+        {{#each company}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit"><br>
+    <span id="q9_result"></span>
+</form>

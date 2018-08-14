@@ -7,7 +7,7 @@ function writeResult(response, options) {
 
 //Ensure that event listeners are added once all DOM elements of the webpage are available (This is essentially 'main')
 $(document).ready(function() {
-    for(i = 0; i < 8; i++)
+    for(i = 0; i < 10; i++)
     {
         let queryNum = '#q' + i;
         form_handler($(queryNum + '_form'), writeResult, {result : $(queryNum + '_result')});

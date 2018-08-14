@@ -201,16 +201,23 @@ router.post('/q3', function(req, res) {
         }
         else //Success!
         {
-            if(results.length != 0)
+            var len = results.length;
+            var count = 0;
+            
+            if(len != 0)
             {
                 res.write(results[0].company_name + " has the roles:");
                 results.forEach(function(row) {
                     res.write("\t" + row.role_name + ",");
+                    count++;
                 }); 
             }
             
-            res.status(200);
-            res.end();
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
         }
         
     });
@@ -235,16 +242,23 @@ router.post('/q4', function(req, res) {
         }
         else
         {
-            if(results.length != 0)
+            var len = results.length;
+            var count = 0;
+            
+            if(len != 0)
             {
                 res.write(results[0].role_name + "s are available at:");
                 results.forEach(function(row) {
                     res.write("\t" + row.company_name + ",");
+                    count++;
                 }); 
             }
             
-            res.status(200);
-            res.end();
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
         }
     });
 });
@@ -298,16 +312,23 @@ router.post('/q6', function(req, res) {
         }
         else
         {
-            if(results.length != 0)
+            var len = results.length;
+            var count = 0;
+            
+            if(len != 0)
             {
                 res.write(results[0].team_name + " is currently working on:");
                 results.forEach(function(row) {
                     res.write("\t" + row.project_name + ",");
+                    count++;
                 }); 
             }
             
-            res.status(200);
-            res.end();
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
         }
     });
 });
@@ -331,16 +352,103 @@ router.post('/q7', function(req, res) {
         }
         else
         {
-            if(results.length != 0)
+            var len = results.length;
+            var count = 0;
+            
+            if(len != 0)
             {
                 res.write(results[0].project_name + " is being developed by:");
                 results.forEach(function(row) {
                     res.write("\t" + row.team_name + ",");
+                    count++;
                 }); 
             }
             
-            res.status(200);
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
+        }
+    });
+});
+
+//Query 7: Companies associated with a location
+router.post('/q8', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        SELECT company.name as company_name, location.name as location_name
+        FROM company_location 
+        INNER JOIN company ON company_location.company_id = company.id
+        INNER JOIN location ON company_location.location_id = location.id
+        WHERE location_id = ?
+    `;
+    var inserts = [req.body.location];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
             res.end();
+        }
+        else
+        {
+            var len = results.length;
+            var count = 0;
+
+            if(len != 0)
+            {
+                res.write(results[0].location_name + " is home to: ");
+                results.forEach(function(row) {
+                    res.write("\t" + row.company_name + ",");
+                    count++;
+                }); 
+            }
+            
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
+        }
+    });
+});
+
+//Query 7: Companies associated with a location
+router.post('/q9', function(req, res) {
+    var mysql = req.app.get('mysql');
+    var sql = `
+        SELECT company.name as company_name, location.name as location_name
+        FROM company_location 
+        INNER JOIN company ON company_location.company_id = company.id
+        INNER JOIN location ON company_location.location_id = location.id
+        WHERE company_id = ?
+    `;
+    var inserts = [req.body.company];
+    mysql.pool.query(sql, inserts, function(error, results, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            var len = results.length;
+            var count = 0;
+
+            if(len != 0)
+            {
+                res.write(results[0].company_name + " is home to: ");
+                results.forEach(function(row) {
+                    res.write("\t" + row.location_name + ",");
+                    count++;
+                }); 
+            }
+            
+            if(count >= len)
+            {
+                res.status(200);
+                res.end();
+            }
         }
     });
 });
