@@ -27,5 +27,10 @@ app.get('/', function(req,res) {
     res.redirect('/home');
 });
 
+app.use(function(req, res) {
+    res.status(404);
+    res.render('404');
+});
+
 //Listen on port 42069
 app.listen(42069, () => console.log('Server started listening on port 42069!'));
