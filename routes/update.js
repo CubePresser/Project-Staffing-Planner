@@ -68,4 +68,188 @@ router.get('/', function(req, res) {
     }
 });
 
+router.post('/update_project', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update project
+        set name = ?
+        where id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.name, req.body.project], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/update_team', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update team
+        set name = ?
+        where id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.name, req.body.team], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/update_role', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update role
+        set name = ?, salary = ?
+        where id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.name, req.body.salary, req.body.role], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/update_location', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update location
+        set name = ?
+        where id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.name, req.body.location], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/update_company', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update company
+        set name = ?
+        where id = ?;
+    `;
+    mysql.pool.query(sql, [req.body.name, req.body.company], function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
+router.post('/update_project_role', function(req, res) {
+    var mysql = req.app.get('mysql');
+    sql = `
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 1;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 2;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 3;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 4;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 5;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 6;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 7;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 8;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 9;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 10;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 11;
+        
+        update projectrole_month
+        set manpower = ?
+        where project_role_id = ? and month_id = 12;
+    `;
+    var inserts = [
+        req.body.January, req.body.project_role,
+        req.body.February, req.body.project_role,
+        req.body.March, req.body.project_role,
+        req.body.April, req.body.project_role,
+        req.body.May, req.body.project_role,
+        req.body.June, req.body.project_role,
+        req.body.July, req.body.project_role,
+        req.body.August, req.body.project_role,
+        req.body.September, req.body.project_role,
+        req.body.October, req.body.project_role,
+        req.body.November, req.body.project_role,
+        req.body.December, req.body.project_role,
+    ];
+    mysql.pool.query(sql, inserts, function(error, result, fields) {
+        if(query_driver.isSQLError(res, error))
+        {
+            res.status(400);
+            res.end();
+        }
+        else
+        {
+            res.status(200);
+            res.end();
+        }
+    });
+});
+
 module.exports = router;
