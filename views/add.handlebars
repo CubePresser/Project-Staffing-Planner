@@ -14,13 +14,13 @@
 
 <h3>Add a Team-Project Relationship</h3>
 <form id="team-project_form" action="add/add_team-project" method="POST">
-    <span>Role (Choose one):</span><br>
+    <span>Team (Choose one):</span><br>
     <select id="add_team-project_team_id" name="team" class="teams" required>
         {{#each team}}
         <option value="{{id}}">{{name}}</option>
         {{/each}}
     </select><br>
-    <span>Company (Choose one):</span><br>
+    <span>Project (Choose one):</span><br>
     <select id="add_team-project_project_id" name="project" class="projects" required>
         {{#each project}}
         <option value="{{id}}">{{name}}</option>
